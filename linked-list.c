@@ -16,10 +16,9 @@ int add_item(int value)
   int result = -1;
   struct node *new_node = NULL;
 
-  new_node = calloc(1, sizeof(struct node));
+  new_node = calloc(1, sizeof(new_node));
   if(new_node == NULL)
     {
-      printf("Unable to allocate new item\n”");
       goto cleanup;
     }
   new_node->value = value;
@@ -43,6 +42,54 @@ int add_item(int value)
   return result;
 }
 
+int add_item_idx(int value, int idx) {
+  int result = -1;
+  int i = 0;
+  struct node *item_pre_add = NULL;
+  struct node *item_to_add = NULL;
+
+  if(idx < 0)
+    goto cleanup;
+
+  if(idx > nr_of_items)
+    goto cleanup;
+
+  item_to_add = calloc(1, sizeof(item_to_add));
+  if(item_to_add == NULL)
+    goto cleanup;
+  item_to_add->value = value;
+
+  if(idx == 0) {
+    if(head != NULL)
+        item_to_add->next = head;
+    else
+        tail = item_to_add;
+    head = item_to_add;
+  }
+  else if(idx == nr_of_items - 1)
+    {
+      item_pre_add = head;
+      for(i = 0; i < idx; i++)
+          item_pre_add = item_pre_add->next;
+      item_pre_add->next = item_to_add;
+      tail = item_to_add;
+    }
+  else
+    {
+      item_pre_add = head;
+      for(i = 0; i < idx-1; i++)
+          item_pre_add = item_pre_add->next;
+      item_to_add->next = item_pre_add->next;
+      item_pre_add->next = item_to_add;
+    }
+
+  result = 0;
+  nr_of_items += 1;
+
+ cleanup:
+  return result;
+}
+
 int delete_item(int idx)
 {
   int i;
@@ -53,43 +100,36 @@ int delete_item(int idx)
   if(nr_of_items == 0)
     goto cleanup;
 
+  if(idx < 0)
+    goto cleanup;
+
   if(idx >= nr_of_items)
     goto cleanup;
 
-  printf("Delete index %d\n", idx);
-
-  if(idx == 0) {
-    printf("Delete first item\n");
-
+  if(nr_of_items == 1) {
+    free(tail);
+    head = NULL;
+    tail = NULL;
+  }
+  else if(idx == 0) {
     item_to_delete = head;
     head = head->next;
     free(item_to_delete);
   }
   else if(idx == nr_of_items - 1)
     {
-      printf("Delete last item\n");
-
       item_pre_delete = head;
       for(i = 0; i < idx-1; i++)
-        {
           item_pre_delete = item_pre_delete->next;
-        }
       item_to_delete = item_pre_delete->next;
       tail = item_pre_delete;
-
-      printf("Stop at item: %d, item_to_delete: %d\n", item_pre_delete->value, item_to_delete->value);
-
       free(item_to_delete);
     }
   else
     {
-      printf("Delete intermediate item\n");
-
       item_pre_delete = head;
       for(i = 0; i < idx-1; i++)
-        {
           item_pre_delete = item_pre_delete->next;
-        }
       item_to_delete = item_pre_delete->next;
       item_pre_delete->next = item_pre_delete->next->next;
       free(item_to_delete);
@@ -127,8 +167,9 @@ int main() {
 
   int i;
 
-  for(i = 0; i < 10; i++)
-      add_item(i);
+  for(i = 0; i < 9; i++)
+    add_item_idx(i, 0);
+  add_item_idx(9, items_in_list() - 1);
 
   printf("Print after insertion\n");
   print_list();
@@ -139,13 +180,12 @@ int main() {
   print_list();
   printf("\n");
 
-  delete_item(6);
-  printf("Print after delete 6\n");
+  add_item_idx(4, 4);
+  printf("Print after add 4 at 4\n");
   print_list();
   printf("\n");
 
   delete_item(0);
-
   printf("Print after deleting head\n");
   print_list();
   printf("\n");
@@ -156,6 +196,11 @@ int main() {
   print_list();
   printf("\n");
 
+  for(i = items_in_list(); i >= 0; i--)
+    delete_item(0);
+
+  printf("head: %p\n", head);
+  printf("tail: %p\n", tail);
 
   return 0;
 }
