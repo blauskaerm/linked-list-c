@@ -16,7 +16,7 @@ int add_item(int value)
   int result = -1;
   struct node *new_node = NULL;
 
-  new_node = calloc(1, sizeof(new_node));
+  new_node = calloc(1, sizeof(*new_node));
   if(new_node == NULL)
     {
       goto cleanup;
@@ -54,7 +54,7 @@ int add_item_idx(int value, int idx) {
   if(idx > nr_of_items)
     goto cleanup;
 
-  item_to_add = calloc(1, sizeof(item_to_add));
+  item_to_add = calloc(1, sizeof(*item_to_add));
   if(item_to_add == NULL)
     goto cleanup;
   item_to_add->value = value;
