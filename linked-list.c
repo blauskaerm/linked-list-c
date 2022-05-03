@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct node {
   int value;
@@ -107,6 +108,7 @@ int delete_item(int idx)
     goto cleanup;
 
   if(nr_of_items == 1) {
+    memset(tail, 0, sizeof(*tail));
     free(tail);
     head = NULL;
     tail = NULL;
@@ -114,6 +116,7 @@ int delete_item(int idx)
   else if(idx == 0) {
     item_to_delete = head;
     head = head->next;
+    memset(item_to_delete, 0, sizeof(*item_to_delete));
     free(item_to_delete);
   }
   else if(idx == nr_of_items - 1)
@@ -123,6 +126,7 @@ int delete_item(int idx)
           item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
       tail = item_pre_delete;
+      memset(item_to_delete, 0, sizeof(*item_to_delete));
       free(item_to_delete);
     }
   else
@@ -132,6 +136,7 @@ int delete_item(int idx)
           item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
       item_pre_delete->next = item_pre_delete->next->next;
+      memset(item_to_delete, 0, sizeof(*item_to_delete));
       free(item_to_delete);
     }
 
