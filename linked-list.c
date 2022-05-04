@@ -3,14 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct node {
-  int value;
-  struct node *next;
-};
+#include "linked-list.h"
 
-int nr_of_items = 0;
-struct node *head = NULL;
-struct node *tail = NULL;
+static int nr_of_items = 0;
+static struct node *head = NULL;
+static struct node *tail = NULL;
 
 int add_item(int value)
 {
@@ -45,7 +42,48 @@ int add_item(int value)
 
 int add_item_idx(int value, int idx) {
   int result = -1;
-  int i = 0;
+  int i = 0;int main() {
+
+  int i;
+
+  for(i = 0; i < 9; i++)
+    add_item_idx(i, 0);
+  add_item_idx(9, items_in_list() - 1);
+
+  printf("Print after insertion\n");
+  print_list();
+  printf("\n");
+
+  delete_item(4);
+  printf("Print after delete 4\n");
+  print_list();
+  printf("\n");
+
+  add_item_idx(4, 4);
+  printf("Print after add 4 at 4\n");
+  print_list();
+  printf("\n");
+
+  delete_item(0);
+  printf("Print after deleting head\n");
+  print_list();
+  printf("\n");
+
+  delete_item(items_in_list() - 1);
+
+  printf("Print after deleting tail\n");
+  print_list();
+  printf("\n");
+
+  for(i = items_in_list(); i >= 0; i--)
+    delete_item(0);
+
+  printf("head: %p\n", head);
+  printf("tail: %p\n", tail);
+
+  return 0;
+}
+
   struct node *item_pre_add = NULL;
   struct node *item_to_add = NULL;
 
@@ -168,44 +206,17 @@ void print_list()
   printf("Value[%d]: %d\n", i++, tail->value);
 }
 
-int main() {
+int linked_list_init(struct linked_list_t *list,
+                     int (*add_item_cb)(void *),
+                     int (*delete_item_cb)(void *),
+                     int (*add_item_idx_cb)(void *),
+                     int (*item_iterator_cb)(void *)) {
+  memset(list, 0, sizeof(*list));
 
-  int i;
-
-  for(i = 0; i < 9; i++)
-    add_item_idx(i, 0);
-  add_item_idx(9, items_in_list() - 1);
-
-  printf("Print after insertion\n");
-  print_list();
-  printf("\n");
-
-  delete_item(4);
-  printf("Print after delete 4\n");
-  print_list();
-  printf("\n");
-
-  add_item_idx(4, 4);
-  printf("Print after add 4 at 4\n");
-  print_list();
-  printf("\n");
-
-  delete_item(0);
-  printf("Print after deleting head\n");
-  print_list();
-  printf("\n");
-
-  delete_item(items_in_list() - 1);
-
-  printf("Print after deleting tail\n");
-  print_list();
-  printf("\n");
-
-  for(i = items_in_list(); i >= 0; i--)
-    delete_item(0);
-
-  printf("head: %p\n", head);
-  printf("tail: %p\n", tail);
+  list->add_item_callback = add_item_cb;
+  list->delete_item_callback = delete_item_cb;
+  list->add_item_idx_callback = add_item_idx_cb;
+  list->item_iterator_callack = item_iterator_cb;
 
   return 0;
 }
