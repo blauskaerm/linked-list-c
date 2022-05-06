@@ -12,7 +12,7 @@ int add_my_item(void **item, void *value) {
 
   int *my_value = (int *) value;
 
-  printf("Value to add: %d, address %p, size: %u\n",
+  printf("Value to add: %d, address %p, size: %lu\n",
          *my_value,
          my_value,
          sizeof(*my_value));

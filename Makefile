@@ -1,5 +1,5 @@
 
-CFLAGS = -Werror -O2 -std=c99
+CFLAGS = -Wall -Werror -O2 -std=c99
 
 all: linked-list
 
