@@ -5,10 +5,6 @@
 
 #include "linked-list.h"
 
-/* static int nr_of_items = 0; */
-/* static struct node *head = NULL; */
-/* static struct node *tail = NULL; */
-
 int add_item(struct linked_list_t *list, void *value)
 {
   int result = -1;
@@ -164,82 +160,9 @@ int delete_item(struct linked_list_t *list, int idx)
   return result;
 }
 
-/* int delete_item(int idx) */
-/* { */
-/*   int i; */
-/*   int result = -1; */
-/*   struct node *item_pre_delete = NULL; */
-/*   struct node *item_to_delete = NULL; */
-
-/*   if(nr_of_items == 0) */
-/*     goto cleanup; */
-
-/*   if(idx < 0) */
-/*     goto cleanup; */
-
-/*   if(idx >= nr_of_items) */
-/*     goto cleanup; */
-
-/*   if(nr_of_items == 1) { */
-/*     memset(tail, 0, sizeof(*tail)); */
-/*     free(tail); */
-/*     head = NULL; */
-/*     tail = NULL; */
-/*   } */
-/*   else if(idx == 0) { */
-/*     item_to_delete = head; */
-/*     head = head->next; */
-/*     memset(item_to_delete, 0, sizeof(*item_to_delete)); */
-/*     free(item_to_delete); */
-/*   } */
-/*   else if(idx == nr_of_items - 1) */
-/*     { */
-/*       item_pre_delete = head; */
-/*       for(i = 0; i < idx-1; i++) */
-/*           item_pre_delete = item_pre_delete->next; */
-/*       item_to_delete = item_pre_delete->next; */
-/*       tail = item_pre_delete; */
-/*       memset(item_to_delete, 0, sizeof(*item_to_delete)); */
-/*       free(item_to_delete); */
-/*     } */
-/*   else */
-/*     { */
-/*       item_pre_delete = head; */
-/*       for(i = 0; i < idx-1; i++) */
-/*           item_pre_delete = item_pre_delete->next; */
-/*       item_to_delete = item_pre_delete->next; */
-/*       item_pre_delete->next = item_pre_delete->next->next; */
-/*       memset(item_to_delete, 0, sizeof(*item_to_delete)); */
-/*       free(item_to_delete); */
-/*     } */
-
-/*   nr_of_items -= 1; */
-/*   result = 0; */
-
-/*  cleanup: */
-/*   return result; */
-/* } */
-
 int items_in_list(struct linked_list_t *list) {
   return list->nr_of_items;
 }
-
-/* void print_list() */
-/* { */
-/*   int i = 0; */
-/*   struct node *idx_node = NULL; */
-
-/*   if(head == NULL || tail == NULL) */
-/*     return; */
-
-/*   printf("Nr of Items: %d\n", nr_of_items); */
-/*   for(idx_node = head; idx_node != tail; idx_node = idx_node->next) */
-/*     { */
-/*       printf("Value[%d]: %d\n", i, idx_node->value); */
-/*       i += 1; */
-/*     } */
-/*   printf("Value[%d]: %d\n", i++, tail->value); */
-/* } */
 
 int linked_list_init(struct linked_list_t *list,
                      int (*add_item_cb)(void **, void *),
