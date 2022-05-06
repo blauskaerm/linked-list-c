@@ -22,6 +22,7 @@ int items_in_list(struct linked_list_t *);
 void print_list();
 int iterate_items(struct linked_list_t *);
 int set_iterate_callback(struct linked_list_t *list, int (*item_iterator_cb)(void *));
+int get_item_idx(struct linked_list_t *list, int idx, void **item);
 
 int linked_list_init(struct linked_list_t *list,
                      int (*add_item_bc)(void **, void *),

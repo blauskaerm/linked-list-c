@@ -105,6 +105,11 @@ int main() {
   iterate_items(&list);
   printf("\n");
 
+  int *item = NULL;
+  get_item_idx(&list, 4, (void *)&item);
+  printf("Got item: %d\n", *item);
+  printf("\n");
+
   printf("Delete all items\n");
   for(i = items_in_list(&list); i >= 0; i--)
     delete_item(&list, 0);

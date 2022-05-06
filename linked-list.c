@@ -167,6 +167,27 @@ int delete_item(struct linked_list_t *list, int idx)
   return result;
 }
 
+int get_item_idx(struct linked_list_t *list, int idx, void **item) {
+
+  int result = -1;
+  struct node *item_to_get = NULL;
+
+  if (idx < 0)
+    goto cleanup;
+  if (idx >= items_in_list(list))
+    goto cleanup;
+
+  item_to_get = list->head;
+  while(idx--)
+      item_to_get = item_to_get->next;
+
+  *item = item_to_get->item;
+  result = 0;
+
+ cleanup:
+  return result;
+}
+
 int items_in_list(struct linked_list_t *list) {
   return list->nr_of_items;
 }
