@@ -39,6 +39,7 @@ int modify_item_iterator(void *item) {
 int delete_my_item(void *item) {
   int *my_value = (int *) item;
   printf("Item to free: %p\n", my_value);
+  memset(my_value, 0, sizeof(*my_value));
   free(my_value);
   return 0;
 }
