@@ -80,6 +80,21 @@ int main() {
   iterate_items(&list);
   printf("\n");
 
+  i = 0;
+  add_item_idx(&list, &i, 0);
+  printf("Print after adding to head\n");
+  printf("Items in list: %d\n", items_in_list(&list));
+  iterate_items(&list);
+  printf("\n");
+
+  i = 8;
+  add_item_idx(&list, &i, items_in_list(&list) - 1);
+  printf("Print after adding to tail\n");
+  printf("Items in list: %d\n", items_in_list(&list));
+  iterate_items(&list);
+  printf("\n");
+
+  set_iterate_callback(&list, &modify_item_iterator);
   printf("Delete all items\n");
   for(i = items_in_list(&list); i >= 0; i--)
     delete_item(&list, 0);
