@@ -54,54 +54,55 @@ int iterate_items(struct linked_list_t *list) {
     return 0;
 }
 
-/* int add_item_idx(int value, int idx) { */
-/*   int result = -1; */
-/*   int i = 0;
+int add_item_idx(struct linked_list_t *list, void *value, int idx) {
+  int result = -1;
+  int i = 0;
 
-/*   struct node *item_pre_add = NULL; */
-/*   struct node *item_to_add = NULL; */
+  struct node *item_pre_add = NULL;
+  struct node *item_to_add = NULL;
 
-/*   if(idx < 0) */
-/*     goto cleanup; */
+  if(idx < 0)
+    goto cleanup;
 
-/*   if(idx > nr_of_items) */
-/*     goto cleanup; */
+  if(idx > list->nr_of_items)
+    goto cleanup;
 
-/*   item_to_add = calloc(1, sizeof(*item_to_add)); */
-/*   if(item_to_add == NULL) */
-/*     goto cleanup; */
-/*   item_to_add->value = value; */
+  item_to_add = calloc(1, sizeof(*item_to_add));
+  if(item_to_add == NULL)
+    goto cleanup;
+  if (list->add_item_callback(&item_to_add->item, value) != 0)
+    goto cleanup;
 
-/*   if(idx == 0) { */
-/*     if(head != NULL) */
-/*         item_to_add->next = head; */
-/*     else */
-/*         tail = item_to_add; */
-/*     head = item_to_add; */
-/*   } */
-/*   else if(idx == nr_of_items - 1) */
-/*     { */
-/*       item_pre_add = head; */
-/*       for(i = 0; i < idx; i++) */
-/*           item_pre_add = item_pre_add->next; */
-/*       item_pre_add->next = item_to_add; */
-/*       tail = item_to_add; */
-/*     } */
-/*   else */
-/*     { */
-/*       item_pre_add = head; */
-/*       for(i = 0; i < idx-1; i++) */
-/*           item_pre_add = item_pre_add->next; */
-/*       item_to_add->next = item_pre_add->next; */
-/*       item_pre_add->next = item_to_add; */
-/*     } */
+  if(idx == 0) {
+    if(list->head != NULL)
+        item_to_add->next = list->head;
+    else
+        list->tail = item_to_add;
+    list->head = item_to_add;
+  }
+  else if(idx == list->nr_of_items - 1)
+    {
+      item_pre_add = list->head;
+      for(i = 0; i < idx; i++)
+          item_pre_add = item_pre_add->next;
+      item_pre_add->next = item_to_add;
+      list->tail = item_to_add;
+    }
+  else
+    {
+      item_pre_add = list->head;
+      for(i = 0; i < idx-1; i++)
+          item_pre_add = item_pre_add->next;
+      item_to_add->next = item_pre_add->next;
+      item_pre_add->next = item_to_add;
+    }
 
-/*   result = 0; */
-/*   nr_of_items += 1; */
+  result = 0;
+  list->nr_of_items += 1;
 
-/*  cleanup: */
-/*   return result; */
-/* } */
+ cleanup:
+  return result;
+}
 
 int delete_item(struct linked_list_t *list, int idx)
 {
@@ -129,6 +130,7 @@ int delete_item(struct linked_list_t *list, int idx)
   else if(idx == 0) { // first item
     item_to_delete = list->head;
     list->head = list->head->next;
+    list->delete_item_callback(item_to_delete->item);
     memset(item_to_delete, 0, sizeof(*item_to_delete));
     free(item_to_delete);
   }
@@ -139,21 +141,17 @@ int delete_item(struct linked_list_t *list, int idx)
           item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
       list->tail = item_pre_delete;
-      list->delete_item_callback(list->tail->item);
+      list->delete_item_callback(item_to_delete->item);
       memset(item_to_delete, 0, sizeof(*item_to_delete));
       free(item_to_delete);
     }
-  else
+  else // Intermediate item
     {
-      printf("Delete item\n");
-
       item_pre_delete = list->head;
       for(i = 0; i < idx-1; i++)
           item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
-
       list->delete_item_callback(item_to_delete->item);
-
       item_pre_delete->next = item_pre_delete->next->next;
       memset(item_to_delete, 0, sizeof(*item_to_delete));
       free(item_to_delete);

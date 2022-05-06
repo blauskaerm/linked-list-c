@@ -17,7 +17,7 @@ struct linked_list_t {
 };
 
 int add_item(struct linked_list_t *, void *);
-int add_item_idx(int, int);
+int add_item_idx(struct linked_list_t *, void *, int);
 int delete_item(struct linked_list_t *, int);
 int items_in_list(struct linked_list_t *);
 void print_list();

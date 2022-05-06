@@ -54,35 +54,42 @@ int main() {
     add_item(&list, &i);
   printf("Items in list: %d\n", items_in_list(&list));
   iterate_items(&list);
-  //add_item_idx(9, items_in_list() - 1);
-
-  /* printf("Print after insertion\n"); */
-  /* print_list(); */
-  /* printf("\n"); */
+  printf("\n");
 
   delete_item(&list, 4);
   printf("Print after delete 4\n");
+  printf("Items in list: %d\n", items_in_list(&list));
   iterate_items(&list);
   printf("\n");
 
-  /* add_item_idx(4, 4); */
-  /* printf("Print after add 4 at 4\n"); */
-  /* print_list(); */
-  /* printf("\n"); */
+  i = 4;
+  add_item_idx(&list, &i, 4);
+  printf("Print after add 4 at 4\n");
+  printf("Items in list: %d\n", items_in_list(&list));
+  iterate_items(&list);
+  printf("\n");
 
-  /* delete_item(0); */
-  /* printf("Print after deleting head\n"); */
-  /* print_list(); */
-  /* printf("\n"); */
+  delete_item(&list, 0);
+  printf("Print after deleting head\n");
+  printf("Items in list: %d\n", items_in_list(&list));
+  iterate_items(&list);
+  printf("\n");
 
-  /* delete_item(items_in_list() - 1); */
+  delete_item(&list, items_in_list(&list) - 1);
+  printf("Print after deleting tail\n");
+  printf("Items in list: %d\n", items_in_list(&list));
+  iterate_items(&list);
+  printf("\n");
 
-  /* printf("Print after deleting tail\n"); */
-  /* print_list(); */
-  /* printf("\n"); */
+  printf("Delete all items\n");
+  for(i = items_in_list(&list); i >= 0; i--)
+    delete_item(&list, 0);
+  printf("Items in list: %d\n", items_in_list(&list));
+  iterate_items(&list);
+  printf("\n");
 
-  /* for(i = items_in_list(); i >= 0; i--) */
-  /*   delete_item(0); */
+  printf("Head: %p\n", list.head);
+  printf("Tail: %p\n", list.tail);
 
   return 0;
 }
