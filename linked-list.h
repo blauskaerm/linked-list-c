@@ -21,6 +21,7 @@ int delete_item(struct linked_list_t *, int);
 int items_in_list(struct linked_list_t *);
 void print_list();
 int iterate_items(struct linked_list_t *);
+int set_iterate_callback(struct linked_list_t *list, int (*item_iterator_cb)(void *));
 
 int linked_list_init(struct linked_list_t *list,
                      int (*add_item_bc)(void **, void *),

@@ -50,6 +50,13 @@ int iterate_items(struct linked_list_t *list) {
     return 0;
 }
 
+int set_iterate_callback(struct linked_list_t *list, int (*item_iterator_cb)(void *)) {
+  if(item_iterator_cb == NULL)
+    return -1;
+  list->item_iterator_callack = item_iterator_cb;
+  return 0;
+}
+
 int add_item_idx(struct linked_list_t *list, void *value, int idx) {
   int result = -1;
   int i = 0;

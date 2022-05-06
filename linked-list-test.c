@@ -30,12 +30,15 @@ int iterator(void *value) {
   return 0;
 }
 
-int delete_my_item(void *item) {
-  printf("free item\n");
+int modify_item_iterator(void *item) {
+  int *my_value = (int *) item;
+  *my_value += 1;
+  return 0;
+}
 
+int delete_my_item(void *item) {
   int *my_value = (int *) item;
   printf("Item to free: %p\n", my_value);
-
   free(my_value);
   return 0;
 }
@@ -95,6 +98,13 @@ int main() {
   printf("\n");
 
   set_iterate_callback(&list, &modify_item_iterator);
+  iterate_items(&list);
+  printf("Print after adding one to each item\n");
+  printf("Items in list: %d\n", items_in_list(&list));
+  set_iterate_callback(&list, &iterator);
+  iterate_items(&list);
+  printf("\n");
+
   printf("Delete all items\n");
   for(i = items_in_list(&list); i >= 0; i--)
     delete_item(&list, 0);
