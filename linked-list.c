@@ -59,7 +59,6 @@ int set_iterate_callback(struct linked_list_t *list, int (*item_iterator_cb)(voi
 
 int add_item_idx(struct linked_list_t *list, void *value, int idx) {
   int result = -1;
-  int i = 0;
 
   struct node *item_pre_add = NULL;
   struct node *item_to_add = NULL;
@@ -86,16 +85,16 @@ int add_item_idx(struct linked_list_t *list, void *value, int idx) {
   else if(idx == list->nr_of_items - 1)
     {
       item_pre_add = list->head;
-      for(i = 0; i < idx; i++)
-          item_pre_add = item_pre_add->next;
+      while(idx--)
+        item_pre_add = item_pre_add->next;
       item_pre_add->next = item_to_add;
       list->tail = item_to_add;
     }
   else
     {
       item_pre_add = list->head;
-      for(i = 0; i < idx-1; i++)
-          item_pre_add = item_pre_add->next;
+      while(--idx)
+        item_pre_add = item_pre_add->next;
       item_to_add->next = item_pre_add->next;
       item_pre_add->next = item_to_add;
     }
@@ -109,7 +108,6 @@ int add_item_idx(struct linked_list_t *list, void *value, int idx) {
 
 int delete_item(struct linked_list_t *list, int idx)
 {
-  int i;
   int result = -1;
   struct node *item_pre_delete = NULL;
   struct node *item_to_delete = NULL;
@@ -140,8 +138,8 @@ int delete_item(struct linked_list_t *list, int idx)
   else if(idx == list->nr_of_items - 1) // last item
     {
       item_pre_delete = list->head;
-      for(i = 0; i < idx-1; i++)
-          item_pre_delete = item_pre_delete->next;
+      while(--idx)
+        item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
       list->tail = item_pre_delete;
       list->delete_item_callback(item_to_delete->item);
@@ -151,8 +149,8 @@ int delete_item(struct linked_list_t *list, int idx)
   else // Intermediate item
     {
       item_pre_delete = list->head;
-      for(i = 0; i < idx-1; i++)
-          item_pre_delete = item_pre_delete->next;
+      while(--idx)
+        item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
       list->delete_item_callback(item_to_delete->item);
       item_pre_delete->next = item_pre_delete->next->next;
