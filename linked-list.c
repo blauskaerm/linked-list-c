@@ -167,13 +167,11 @@ int items_in_list(struct linked_list_t *list) {
 int linked_list_init(struct linked_list_t *list,
                      int (*add_item_cb)(void **, void *),
                      int (*delete_item_cb)(void *),
-                     int (*add_item_idx_cb)(void *, void *),
                      int (*item_iterator_cb)(void *)) {
   memset(list, 0, sizeof(*list));
 
   list->add_item_callback = add_item_cb;
   list->delete_item_callback = delete_item_cb;
-  list->add_item_idx_callback = add_item_idx_cb;
   list->item_iterator_callack = item_iterator_cb;
 
   return 0;

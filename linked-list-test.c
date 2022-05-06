@@ -47,7 +47,6 @@ int main() {
   linked_list_init(&list,
                    &add_my_item,
                    &delete_my_item,
-                   &dummy_callback,
                    &iterator);
 
   for(i = 0; i < 9; i++)
