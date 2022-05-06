@@ -58,14 +58,14 @@ int main() {
   iterate_items(&list);
   printf("\n");
 
-  delete_item(&list, 4);
+  delete_item(&list, 3);
   printf("Print after delete 4\n");
   printf("Items in list: %d\n", items_in_list(&list));
   iterate_items(&list);
   printf("\n");
 
   i = 4;
-  add_item_idx(&list, &i, 4);
+  add_item_idx(&list, &i, 3);
   printf("Print after add 4 at 4\n");
   printf("Items in list: %d\n", items_in_list(&list));
   iterate_items(&list);
@@ -106,7 +106,8 @@ int main() {
   printf("\n");
 
   int *item = NULL;
-  get_item_idx(&list, 4, (void *)&item);
+  printf("Get item at index 3\n");
+  get_item_idx(&list, 3, (void *)&item);
   printf("Got item: %d\n", *item);
   printf("\n");
 

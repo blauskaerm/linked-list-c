@@ -93,7 +93,7 @@ int add_item_idx(struct linked_list_t *list, void *value, int idx) {
   else
     {
       item_pre_add = list->head;
-      while(--idx)
+      while(idx--)
         item_pre_add = item_pre_add->next;
       item_to_add->next = item_pre_add->next;
       item_pre_add->next = item_to_add;
@@ -149,7 +149,7 @@ int delete_item(struct linked_list_t *list, int idx)
   else // Intermediate item
     {
       item_pre_delete = list->head;
-      while(--idx)
+      while(idx--)
         item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
       list->delete_item_callback(item_to_delete->item);
