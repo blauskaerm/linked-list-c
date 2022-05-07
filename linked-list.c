@@ -77,13 +77,13 @@ int add_item_idx(struct linked_list_t *list, void *item, int idx) {
   struct node *item_pre_add = NULL;
   struct node *item_to_add = NULL;
 
-  if(idx < 0)
-    goto cleanup;
-  if(idx > list->nr_of_items)
-    goto cleanup;
   if(item == NULL)
     goto cleanup;
   if(list == NULL)
+    goto cleanup;
+  if(idx < 0)
+    goto cleanup;
+  if(idx > list->nr_of_items)
     goto cleanup;
 
   item_to_add = calloc(1, sizeof(*item_to_add));
