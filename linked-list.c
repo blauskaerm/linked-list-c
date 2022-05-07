@@ -10,6 +10,11 @@ int add_item(struct linked_list_t *list, void *item)
   int result = -1;
   struct node *new_node = NULL;
 
+  if(list == NULL)
+    goto cleanup;
+  if(item == NULL)
+    goto cleanup;
+
   new_node = calloc(1, sizeof(*new_node));
   if(new_node == NULL)
     {
@@ -38,16 +43,25 @@ int add_item(struct linked_list_t *list, void *item)
 }
 
 int iterate_items(struct linked_list_t *list) {
-    struct node *idx_node = NULL;
 
-    if(list->head == NULL || list->tail == NULL)
-      return 0;
+  int result = -1;
+  struct node *idx_node = NULL;
 
-    for(idx_node = list->head; idx_node != list->tail; idx_node = idx_node->next)
-        list->item_iterator_callack(idx_node->item);
-    list->item_iterator_callack(list->tail->item);
+  if(list == NULL)
+    goto cleanup;
+  if(list->head == NULL || list->tail == NULL)
+    goto cleanup;
 
-    return 0;
+  for(idx_node = list->head; idx_node != list->tail; idx_node = idx_node->next)
+    if(list->item_iterator_callack(idx_node->item) != 0)
+      goto cleanup;
+  if(list->item_iterator_callack(list->tail->item) != 0)
+    goto cleanup;
+
+  result = 0;
+
+ cleanup:
+  return result;
 }
 
 int set_iterate_callback(struct linked_list_t *list, int (*item_iterator_cb)(void *)) {
@@ -65,8 +79,11 @@ int add_item_idx(struct linked_list_t *list, void *item, int idx) {
 
   if(idx < 0)
     goto cleanup;
-
   if(idx > list->nr_of_items)
+    goto cleanup;
+  if(item == NULL)
+    goto cleanup;
+  if(list == NULL)
     goto cleanup;
 
   item_to_add = calloc(1, sizeof(*item_to_add));
@@ -112,17 +129,18 @@ int delete_item_idx(struct linked_list_t *list, int idx)
   struct node *item_pre_delete = NULL;
   struct node *item_to_delete = NULL;
 
+  if(list == NULL)
+    goto cleanup;
   if(list->nr_of_items == 0)
     goto cleanup;
-
   if(idx < 0)
     goto cleanup;
-
   if(idx >= list->nr_of_items)
     goto cleanup;
 
   if(list->nr_of_items == 1) { // Only one item
-    list->delete_item_callback(list->tail->item);
+    if(list->delete_item_callback(list->tail->item) != 0)
+      goto cleanup;
     memset(list->tail, 0, sizeof(*list->tail));
     free(list->tail);
     list->head = NULL;
@@ -130,8 +148,9 @@ int delete_item_idx(struct linked_list_t *list, int idx)
   }
   else if(idx == 0) { // first item
     item_to_delete = list->head;
+    if(list->delete_item_callback(item_to_delete->item) != 0)
+      goto cleanup;
     list->head = list->head->next;
-    list->delete_item_callback(item_to_delete->item);
     memset(item_to_delete, 0, sizeof(*item_to_delete));
     free(item_to_delete);
   }
@@ -141,8 +160,9 @@ int delete_item_idx(struct linked_list_t *list, int idx)
       while(--idx)
         item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
+      if(list->delete_item_callback(item_to_delete->item) != 0)
+        goto cleanup;
       list->tail = item_pre_delete;
-      list->delete_item_callback(item_to_delete->item);
       memset(item_to_delete, 0, sizeof(*item_to_delete));
       free(item_to_delete);
     }
@@ -152,7 +172,8 @@ int delete_item_idx(struct linked_list_t *list, int idx)
       while(idx--)
         item_pre_delete = item_pre_delete->next;
       item_to_delete = item_pre_delete->next;
-      list->delete_item_callback(item_to_delete->item);
+      if(list->delete_item_callback(item_to_delete->item) != 0)
+        goto cleanup;
       item_pre_delete->next = item_pre_delete->next->next;
       memset(item_to_delete, 0, sizeof(*item_to_delete));
       free(item_to_delete);
@@ -170,6 +191,10 @@ int get_item_idx(struct linked_list_t *list, int idx, void **item) {
   int result = -1;
   struct node *item_to_get = NULL;
 
+  if(list == NULL)
+    goto cleanup;
+  if(item == NULL)
+    goto cleanup;
   if (idx < 0)
     goto cleanup;
   if (idx >= items_in_list(list))
@@ -194,11 +219,23 @@ int linked_list_init(struct linked_list_t *list,
                      int (*add_item_cb)(void **, void *),
                      int (*delete_item_cb)(void *),
                      int (*item_iterator_cb)(void *)) {
-  memset(list, 0, sizeof(*list));
 
+  int result = -1;
+
+  if(add_item_cb == NULL)
+    goto cleanup;
+  if (delete_item_cb == NULL)
+    goto cleanup;
+  if(item_iterator_cb == NULL)
+    goto cleanup;
+
+  memset(list, 0, sizeof(*list));
   list->add_item_callback = add_item_cb;
   list->delete_item_callback = delete_item_cb;
   list->item_iterator_callack = item_iterator_cb;
 
-  return 0;
+  result = 0;
+
+ cleanup:
+  return result;
 }
