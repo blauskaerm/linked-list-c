@@ -59,7 +59,7 @@ int main() {
   iterate_items(&list);
   printf("\n");
 
-  delete_item(&list, 3);
+  delete_item_idx(&list, 3);
   printf("Print after delete 4\n");
   printf("Items in list: %d\n", items_in_list(&list));
   iterate_items(&list);
@@ -72,13 +72,13 @@ int main() {
   iterate_items(&list);
   printf("\n");
 
-  delete_item(&list, 0);
+  delete_item_idx(&list, 0);
   printf("Print after deleting head\n");
   printf("Items in list: %d\n", items_in_list(&list));
   iterate_items(&list);
   printf("\n");
 
-  delete_item(&list, items_in_list(&list) - 1);
+  delete_item_idx(&list, items_in_list(&list) - 1);
   printf("Print after deleting tail\n");
   printf("Items in list: %d\n", items_in_list(&list));
   iterate_items(&list);
@@ -114,7 +114,7 @@ int main() {
 
   printf("Delete all items\n");
   for(i = items_in_list(&list); i >= 0; i--)
-    delete_item(&list, 0);
+    delete_item_idx(&list, 0);
   printf("Items in list: %d\n", items_in_list(&list));
   iterate_items(&list);
   printf("\n");

@@ -106,7 +106,7 @@ int add_item_idx(struct linked_list_t *list, void *value, int idx) {
   return result;
 }
 
-int delete_item(struct linked_list_t *list, int idx)
+int delete_item_idx(struct linked_list_t *list, int idx)
 {
   int result = -1;
   struct node *item_pre_delete = NULL;
