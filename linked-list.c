@@ -5,7 +5,7 @@
 
 #include "linked-list.h"
 
-int add_item(struct linked_list_t *list, void *value)
+int add_item(struct linked_list_t *list, void *item)
 {
   int result = -1;
   struct node *new_node = NULL;
@@ -15,7 +15,7 @@ int add_item(struct linked_list_t *list, void *value)
     {
       goto cleanup;
     }
-  if (list->add_item_callback(&new_node->item, value) != 0)
+  if (list->add_item_callback(&new_node->item, item) != 0)
     goto cleanup;
 
   if(list->nr_of_items == 0)
@@ -57,7 +57,7 @@ int set_iterate_callback(struct linked_list_t *list, int (*item_iterator_cb)(voi
   return 0;
 }
 
-int add_item_idx(struct linked_list_t *list, void *value, int idx) {
+int add_item_idx(struct linked_list_t *list, void *item, int idx) {
   int result = -1;
 
   struct node *item_pre_add = NULL;
@@ -72,7 +72,7 @@ int add_item_idx(struct linked_list_t *list, void *value, int idx) {
   item_to_add = calloc(1, sizeof(*item_to_add));
   if(item_to_add == NULL)
     goto cleanup;
-  if (list->add_item_callback(&item_to_add->item, value) != 0)
+  if (list->add_item_callback(&item_to_add->item, item) != 0)
     goto cleanup;
 
   if(idx == 0) {
