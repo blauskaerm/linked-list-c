@@ -17,14 +17,14 @@ struct linked_list_t {
 
 int add_item(struct linked_list_t *, void *);
 int add_item_idx(struct linked_list_t *, void *, int);
-int delete_item(struct linked_list_t *, int);
-int items_in_list(struct linked_list_t *);
-void print_list();
-int iterate_items(struct linked_list_t *);
-int set_iterate_callback(struct linked_list_t *list, int (*item_iterator_cb)(void *));
-int get_item_idx(struct linked_list_t *list, int idx, void **item);
+int delete_item_idx(struct linked_list_t *, int);
 
-int linked_list_init(struct linked_list_t *list,
-                     int (*add_item_bc)(void **, void *),
-                     int (*delete_item_cb)(void *),
-                     int (*item_iterator_cb)(void *));
+int items_in_list(struct linked_list_t *);
+int iterate_items(struct linked_list_t *);
+int set_iterate_callback(struct linked_list_t *, int (*)(void *));
+int get_item_idx(struct linked_list_t *, int, void **);
+
+int linked_list_init(struct linked_list_t *,
+                     int (*)(void **, void *),
+                     int (*)(void *),
+                     int (*)(void *));
