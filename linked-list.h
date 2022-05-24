@@ -19,6 +19,9 @@ int add_item(struct linked_list_t *, void *);
 int add_item_idx(struct linked_list_t *, void *, int);
 int delete_item_idx(struct linked_list_t *, int);
 
+int get_item_head(struct linked_list_t *, void **);
+int get_item_tail(struct linked_list_t *, void **);
+
 int items_in_list(struct linked_list_t *);
 int iterate_items(struct linked_list_t *);
 int set_iterate_callback(struct linked_list_t *, int (*)(void *));

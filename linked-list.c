@@ -211,6 +211,40 @@ int get_item_idx(struct linked_list_t *list, int idx, void **item) {
   return result;
 }
 
+int get_item_head(struct linked_list_t *list, void **item) {
+
+  int result = -1;
+
+  if(list == NULL)
+    goto cleanup;
+  if(items_in_list(list) == 0)
+    goto cleanup;
+
+  *item = list->head->item;
+  result = 0;
+
+ cleanup:
+  return result;
+
+}
+
+int get_item_tail(struct linked_list_t *list, void **item) {
+
+  int result = -1;
+
+  if(list == NULL)
+    goto cleanup;
+  if(items_in_list(list) == 0)
+    goto cleanup;
+
+  *item = list->tail->item;
+  result = 0;
+
+ cleanup:
+  return result;
+
+}
+
 int items_in_list(struct linked_list_t *list) {
   return list->nr_of_items;
 }

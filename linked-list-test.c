@@ -102,6 +102,16 @@ int main() {
   printf("Got item: %d\n", *item);
   printf("\n");
 
+  printf("Get first item\n");
+  get_item_head(&list, (void *)&item);
+  printf("Got item: %d\n", *item);
+  printf("\n");
+
+  printf("Get last item\n");
+  get_item_tail(&list, (void *)&item);
+  printf("Got item: %d\n", *item);
+  printf("\n");
+
   printf("Delete all items\n");
   for(i = items_in_list(&list); i >= 0; i--)
     delete_item_idx(&list, 0);
